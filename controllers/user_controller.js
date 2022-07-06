@@ -1,11 +1,17 @@
 const { body,validationResult } = require('express-validator');
 const User = require('../models/User')
 const cors = require('cors')
+const jwt = require('jsonwebtoken')
 
 
 exports.get_all_users = function(req, res) {
-    User.find().exec((err, result) => {
-        res.json({users: result})
+    jwt.verify(req.token, 'secret', (err, authData) => {
+        if(err) {res.sendStatur(403)}
+        else{
+            User.find().exec((err, result) => {
+                res.json({users: result, authData})
+            })
+        }
     })
 }
 
@@ -43,7 +49,12 @@ exports.login = function(req, res) {
             res.json({err: err, msg: "Username and password dont match"})
         }
         else {
-            res.json({user: result})
+            console.log("RESULT", result)
+            jwt.sign({user: result}, 'secret', (err, token) => {
+                res.json({token})
+            })
         }
     })
 }
+
+
