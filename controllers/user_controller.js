@@ -42,16 +42,15 @@ exports.create_user = [
     }
 ]
 
+// Log in path, returns a token and the user
 exports.login = function(req, res) {
-    User.findOne({username: req.body.username}).exec((err, result) => {
-        console.log(result)
-        if(result === null || result.password !== req.body.password) {
+    User.findOne({username: req.body.username}).exec((err, user) => {
+        if(user === null || user.password !== req.body.password) {
             res.json({err: err, msg: "Username and password dont match"})
         }
         else {
-            console.log("RESULT", result)
-            jwt.sign({user: result}, 'secret', (err, token) => {
-                res.json({token})
+            jwt.sign({user}, 'secret', (err, token) => {
+                res.json({token, user})
             })
         }
     })

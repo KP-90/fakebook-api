@@ -9,8 +9,8 @@ router.get('/', function(req, res, next) {
 });
 
 // Get and Post routes for users
-router.get('/user', verifyToken, user_controller.get_all_users)
 router.get('/user/:id', user_controller.get_user)
+router.get('/user', verifyToken, user_controller.get_all_users)
 router.post('/user', user_controller.create_user)
 router.post('/login', user_controller.login)
 
