@@ -11,7 +11,7 @@ exports.get_self_user = function(req, res) {
 }
 
 exports.get_user = function(req, res) {
-    return User.findById(req.params.id).exec((err, result) => {
+    return User.find({}).exec((err, result) => {
         res.json({user: result})
     })
 }

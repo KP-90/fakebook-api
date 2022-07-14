@@ -15,7 +15,7 @@ router.post('/submitPost', post_controller.submit_post)
 
 
 // Get and Post routes for users
-router.get('/user/:id', user_controller.get_user)
+router.get('/all_users', user_controller.get_user)
 router.get('/me', user_controller.get_self_user)
 router.post('/user', user_controller.create_user)
 router.post('/login', user_controller.login)
