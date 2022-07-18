@@ -10,11 +10,28 @@ exports.get_self_user = function(req, res) {
     res.json({user: decoded.user})
 }
 
-exports.get_user = function(req, res) {
+exports.get_single_user = function(req, res) {
+    User.findOne({_id: req.params.id}, {password: 0}).exec((err, results) => {
+        res.json({user: results})
+    })
+}
+
+exports.get_all_users = function(req, res) {
     return User.find({}).exec((err, result) => {
+        if(err){res.json({errors: err, msg: "Error retrieving users"})}
         res.json({user: result})
     })
 }
+
+// Fetch will need the body to contain the user model and a payload object.
+exports.update_user = function(req, res) {   
+    console.log(req.body)
+    User.findOneAndUpdate({_id: req.body._id}, req.body.payload).exec((err, result) => {
+        if(err) {res.json({msg: "There was an error", error: err})}
+        res.json({ok: true, info: result})
+    })
+}
+
 
 exports.create_user = [
     body('first').not().isEmpty().trim().escape(),
