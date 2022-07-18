@@ -2,8 +2,9 @@ const { body, validationResult } = require('express-validator');
 const Post = require('../models/Post')
 
 exports.get_all_posts = function(req, res) {
-    Post.find().exec(function(err, results) {
-        res.json(results)
+    Post.find({}).populate('author').exec(function(err, results) {
+        console.log(results)
+        res.json({results})
     })
 }
 
@@ -27,9 +28,8 @@ exports.submit_post = [
             }
             else{
                 console.log("COMPLETED")
-                res.json({status: '200'})
+                res.json({ok:true})
             }
         })
-        console.log("END REACHED")
     }
 ]

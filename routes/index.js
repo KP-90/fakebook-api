@@ -4,13 +4,9 @@ const cors = require('cors')
 
 const user_controller = require('../controllers/user_controller')
 const post_controller = require('../controllers/post_controller')
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send("Affirmative\n")
-});
 
 // Routes for posts
-
+router.get('/', post_controller.get_all_posts)
 router.post('/submitPost', post_controller.submit_post)
 
 
