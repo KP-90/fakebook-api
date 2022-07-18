@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
 let post_schema = new Schema({
-    author: {type: Schema.Types.ObjectId},
+    author: {type: Schema.Types.ObjectId, ref: "User"},
     post_contents: {type: String},
     likes: {type: Array, default: []},
 

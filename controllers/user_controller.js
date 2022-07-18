@@ -7,7 +7,12 @@ const jwt = require('jsonwebtoken')
 exports.get_self_user = function(req, res) {
     let token = req.headers.authorization.split(' ')[1]
     let decoded = jwt.verify(token, "secret");
-    res.json({user: decoded.user})
+    if(decoded.user) {
+        User.findById(decoded.user._id).populate('pending_friends').exec((err, result) => {
+            console.log(result)
+            res.json({user: result})
+        })
+    }
 }
 
 exports.get_single_user = function(req, res) {

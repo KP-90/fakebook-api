@@ -7,8 +7,8 @@ let user_schema = new Schema({
     last: {type: String},
     username: {type: String, required: true},
     password: {type: String, required: true},
-    friends: {type: Array, default: []},
-    pending_friends: {type: Array, default: []},
+    friends: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    pending_friends: [{type: Schema.Types.ObjectId, ref: 'User'}],
 
     date_created: {type: Date, default: Date.now()}
 })
