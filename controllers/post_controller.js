@@ -3,7 +3,6 @@ const Post = require('../models/Post')
 
 exports.get_all_posts = function(req, res) {
     Post.find({}).populate('author').exec(function(err, results) {
-        console.log(results)
         res.json({results})
     })
 }

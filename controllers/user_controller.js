@@ -8,8 +8,7 @@ exports.get_self_user = function(req, res) {
     let token = req.headers.authorization.split(' ')[1]
     let decoded = jwt.verify(token, "secret");
     if(decoded.user) {
-        User.findById(decoded.user._id).populate('pending_friends').exec((err, result) => {
-            console.log(result)
+        User.findById(decoded.user._id).populate('pending_friends').populate('friends').exec((err, result) => {
             res.json({user: result})
         })
     }
