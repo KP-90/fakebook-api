@@ -27,7 +27,7 @@ exports.get_all_users = function(req, res) {
     })
 }
 
-// Fetch will need the body to contain the user model and a payload object.
+// Fetch will need the body to contain the entire user model and a payload object.
 exports.update_user = function(req, res) {   
     console.log(req.body)
     User.findOneAndUpdate({_id: req.body._id}, req.body.payload).exec((err, result) => {
@@ -65,7 +65,7 @@ exports.create_user = [
             password: req.body.password
         }).save(err => {
             if(err) {return res.json({errors: err, msg:"Error saving user"})}
-            res.sendStatus(200)
+            res.json({ok:true})
         })
     }
 ]

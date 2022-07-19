@@ -8,6 +8,7 @@ const post_controller = require('../controllers/post_controller')
 // Routes for posts
 router.get('/', post_controller.get_all_posts)
 router.post('/submitPost', post_controller.submit_post)
+router.post('/delete/:id', post_controller.delete_post)
 
 
 // Get and Post routes for users

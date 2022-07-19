@@ -32,3 +32,11 @@ exports.submit_post = [
         })
     }
 ]
+
+// DELETE a post
+exports.delete_post = function(req, res) { 
+    Post.findByIdAndDelete(req.params.id).exec((err, doc) => {
+        if(err) {res.json({errors: err, msg: "Error deleting post"})}
+        res.sendStatus(200)
+    })
+}
