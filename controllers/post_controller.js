@@ -40,3 +40,19 @@ exports.delete_post = function(req, res) {
         res.sendStatus(200)
     })
 }
+
+// Used to make edits to a post. Fetch request will need the original object and a 'payload' object containing the changes.
+exports.edit_post = [
+    body('payload.post_contents').optional({nullable: true}).trim().isLength({min: 1}),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.json({ ok: false, errors: errors, msg: "Errors are present"});
+        }
+        Post.findOneAndUpdate({_id: req.body._id}, req.body.payload).exec((err, doc) => {
+            if(err) {res.json({ok:false, errors: err})}
+            res.sendStatus(200)
+        })
+    }
+
+]
