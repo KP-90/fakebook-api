@@ -15,7 +15,7 @@ exports.get_self_user = function(req, res) {
 }
 
 exports.get_single_user = function(req, res) {
-    User.findOne({_id: req.params.id}, {password: 0}).exec((err, results) => {
+    User.findOne({_id: req.params.id}, {password: 0}).populate('friends').exec((err, results) => {
         res.json({user: results})
     })
 }
@@ -30,7 +30,7 @@ exports.get_all_users = function(req, res) {
 // Fetch will need the body to contain the entire user model and a payload object.
 exports.update_user = function(req, res) {   
     console.log(req.body)
-    User.findOneAndUpdate({_id: req.body._id}, req.body.payload).exec((err, result) => {
+    User.findOneAndUpdate({_id: req.body._id}, req.body.payload, {new: true}).populate('pending_friends').populate('friends').exec((err, result) => {
         if(err) {res.json({msg: "There was an error", error: err})}
         res.json({ok: true, info: result})
     })
