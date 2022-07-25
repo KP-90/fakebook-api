@@ -22,19 +22,6 @@ router.post('/user/update/:id', user_controller.update_user)
 router.post('/user', user_controller.create_user)
 router.post('/login', user_controller.login)
 
-function verifyToken(req, res, next) {
-  const bearHeader = req.headers['authorization']
-
-  if(typeof bearHeader !== 'undefined') {
-    const bearer = bearHeader.split(' ')
-    req.token = bearer[1]
-    console.log("Verified Toekn")
-    next()
-  }
-  else {
-    console.log("NO TOKEN")
-      res.sendStatuss(403)
-  }
-}
+// Get and Post routes for comments
 
 module.exports = router;
