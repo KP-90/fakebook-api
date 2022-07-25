@@ -4,6 +4,7 @@ const cors = require('cors')
 
 const user_controller = require('../controllers/user_controller')
 const post_controller = require('../controllers/post_controller')
+const comment_controller = require('../controllers/comment_controller')
 
 // Routes for posts
 router.get('/', post_controller.get_all_posts)
@@ -23,5 +24,10 @@ router.post('/user', user_controller.create_user)
 router.post('/login', user_controller.login)
 
 // Get and Post routes for comments
+router.get('/comments/:id', comment_controller.get_comments)
+
+router.post('/comments/:id', comment_controller.post_comment)
+
+
 
 module.exports = router;
