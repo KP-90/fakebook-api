@@ -30,3 +30,14 @@ exports.post_comment = function(req, res) {
         }
     })
 }
+
+exports.delete_comment = function(req, res) {
+    Comment.findByIdAndDelete(req.params.id).exec((err, doc) => {
+        if(err) {res.json({errors: err, msg: "Something went wrong"})}
+        res.sendStatus(200)
+    })
+}
+
+exports.edit_comment = function(req, res) {
+    
+}

@@ -27,6 +27,8 @@ router.post('/login', user_controller.login)
 router.get('/comments/:id', comment_controller.get_comments)
 
 router.post('/comments/:id', comment_controller.post_comment)
+router.post('/comments/delete/:id', comment_controller.delete_comment)
+router.post('/comments/edit/:id', comment_controller.edit_comment)
 
 
 
