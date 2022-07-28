@@ -18,7 +18,7 @@ exports.post_comment = function(req, res) {
         author: req.body.author,
         comment: req.body.comment,
         parentPost: req.body.parentPost,
-    }).save(err => {
+    }).save((err, doc) => {
         console.log("ATTEMPTING SAVE")
         if(err) {
             console.log("ERR", err)
@@ -26,7 +26,7 @@ exports.post_comment = function(req, res) {
         }
         else{
             console.log("COMPLETED")
-            res.json({ok:true})
+            res.json({ok:true, comment: doc})
         }
     })
 }
