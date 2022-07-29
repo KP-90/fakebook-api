@@ -39,5 +39,8 @@ exports.delete_comment = function(req, res) {
 }
 
 exports.edit_comment = function(req, res) {
-    
+    Comment.findOneAndUpdate({_id: req.body._id}, req.body.payload).exec((err, doc) => {
+        if(err) {res.json({errors: err, msg:"Error updating item"})}
+        res.sendStatus(200)
+    })
 }
