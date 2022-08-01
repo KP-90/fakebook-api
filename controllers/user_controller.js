@@ -1,22 +1,39 @@
 const { body,validationResult } = require('express-validator');
 const User = require('../models/User')
+const Post = require('../models/Post')
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
-
+const async = require('async')
 
 exports.get_self_user = function(req, res) {
     let token = req.headers.authorization.split(' ')[1]
     let decoded = jwt.verify(token, "secret");
     if(decoded.user) {
-        User.findById(decoded.user._id).populate('pending_friends').populate('friends').exec((err, result) => {
-            res.json({user: result})
+        async.parallel({
+            currentUser: function(callback) {
+                User.findById(decoded.user._id).populate('pending_friends').populate('friends').exec(callback)
+            },
+            posts: function(callback) {
+                Post.find({author: decoded.user._id}).populate('author').exec(callback)
+            }
+        }, function(err, results) {
+            if(err) {res.json({errors: err})}
+            res.json({user: results.currentUser, posts: results.posts})
         })
     }
 }
 
 exports.get_single_user = function(req, res) {
-    User.findOne({_id: req.params.id}, {password: 0}).populate('friends').exec((err, results) => {
-        res.json({user: results})
+    async.parallel({
+        userDetails: function(callback) {
+            User.findOne({_id: req.params.id}, {password: 0}).populate('friends').exec(callback)
+        },
+        postsByUser: function(callback) {
+            Post.find({author: req.params.id}).populate('author').exec(callback)
+        }
+    }, function(err, results) {
+        if(err) {res.json({errors: err})}
+        res.json({user:results.userDetails, posts:results.postsByUser})
     })
 }
 
