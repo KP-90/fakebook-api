@@ -101,4 +101,13 @@ exports.login = function(req, res) {
     })
 }
 
-
+// Delete entire user, including posts
+exports.delete_user = function(req, res) {
+    console.log("INITIATING USER DELETE PROCESSS")
+    User.findByIdAndDelete(req.params.id).exec((err, doc) => {
+        if(err) {
+            console.log(err)
+            res.json({msg:"ERROR DELETING USER"})}
+        res.json({ok:true, msg:"USER DELETED"})
+    })
+}

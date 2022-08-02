@@ -22,6 +22,7 @@ router.get('/user/:id', user_controller.get_single_user)
 router.post('/user/update/:id', user_controller.update_user)
 router.post('/user', user_controller.create_user)
 router.post('/login', user_controller.login)
+router.post('/user/delete/:id', user_controller.delete_user)
 
 // Get and Post routes for COMMENTS
 router.get('/comments/:id', comment_controller.get_comments)
