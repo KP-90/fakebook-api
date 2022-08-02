@@ -54,5 +54,10 @@ exports.edit_post = [
             res.sendStatus(200)
         })
     }
-
 ]
+
+exports.get_liked_posts = function(req, res) {
+    Post.find({likes: req.params.id}).populate('author').exec((err, results) => {
+        res.json({posts: results})
+    })
+}

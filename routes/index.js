@@ -8,6 +8,7 @@ const comment_controller = require('../controllers/comment_controller')
 
 // Routes for POSTS
 router.get('/', post_controller.get_all_posts)
+router.get('/liked/:id', post_controller.get_liked_posts)
 
 router.post('/submitPost', post_controller.submit_post)
 router.post('/delete/:id', post_controller.delete_post)
