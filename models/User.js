@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const {DateTime} = require('luxon')
+const Comments = require('./Comments')
 
 let Schema = mongoose.Schema
 const opts = { toJSON: { virtuals: true } };
@@ -19,5 +20,6 @@ user_schema
 .get(function(){
     return DateTime.fromJSDate(this.date_created).toLocaleString(DateTime.DATETIME_FULL);
 })
+
 
 module.exports = mongoose.model('User', user_schema)

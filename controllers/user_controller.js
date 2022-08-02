@@ -1,6 +1,7 @@
 const { body,validationResult } = require('express-validator');
 const User = require('../models/User')
 const Post = require('../models/Post')
+const Comments = require('../models/Comments')
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const async = require('async')
@@ -101,13 +102,36 @@ exports.login = function(req, res) {
     })
 }
 
-// Delete entire user, including posts
+// Delete entire user, including posts, friend requests, and current friends
 exports.delete_user = function(req, res) {
     console.log("INITIATING USER DELETE PROCESSS")
-    User.findByIdAndDelete(req.params.id).exec((err, doc) => {
-        if(err) {
-            console.log(err)
-            res.json({msg:"ERROR DELETING USER"})}
-        res.json({ok:true, msg:"USER DELETED"})
-    })
+    console.log(req.params.id)
+    async.parallel([
+        function(callback) {
+            User.findByIdAndDelete(req.params.id).exec(callback)
+        },
+        function(callback) {
+            Post.deleteMany({author: req.params.id}).exec(callback)
+        },
+        function(callback) {
+            Comments.deleteMany({author: req.params.id}).exec(callback)
+        },
+        // delete from all friends and pending arrays.
+        function(callback) {
+            User.updateMany({pending_friends: req.params.id}, {
+                $pullAll: {
+                    pending_friends: req.params.id
+                }
+            }).exec(callback)
+        },
+        function(callback) {
+            User.updateMany({friends: req.params.id}, {
+                $pullAll: {
+                    friends: req.params.id
+                }
+            }).exec(callback)
+        }
+    ], function(err, results) {
+        res.json({msg: "deletion acheived"})
+    }) 
 }
