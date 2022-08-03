@@ -97,13 +97,15 @@ exports.login = function(req, res) {
     
     User.findOne({username: req.body.username}).exec((err, user) => {
         // If no user found, return error
+        console.log(user)
         if(user === null) {
             res.json({errors: err, msg: "Username not found"})
+            return
         }
         // compare the password with thye hashed password
         bcrypt.compare(req.body.password, user.password, function(err, result) {
             if(result === true) {
-                // Create a token and send it to the client
+                // Create a token and send it to the client.
                 jwt.sign({user}, 'secret', (err, token) => {
                     res.json({token: token, msg: "Success"})
                 })

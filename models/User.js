@@ -13,7 +13,7 @@ let user_schema = new Schema({
     pending_friends: [{type: Schema.Types.ObjectId, ref: 'User'}],
 
     date_created: {type: Date, default: Date.now()},
-    isAdmin: {type: Boolean, default: false}
+    isAdmin: {type: Boolean, default: false},
 }, opts)
 
 user_schema
