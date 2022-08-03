@@ -116,7 +116,14 @@ exports.delete_user = function(req, res) {
         function(callback) {
             Comments.deleteMany({author: req.params.id}).exec(callback)
         },
-        // delete from all friends and pending arrays.
+        // delete from all friends, pending_friends, and Post likes arrays
+        function(callback) {
+            Post.updateMany({likes: req.params.id}, {
+                $pullAll: {
+                    likes: req.params.id
+                }
+            }).exec(callback)
+        },
         function(callback) {
             User.updateMany({pending_friends: req.params.id}, {
                 $pullAll: {
