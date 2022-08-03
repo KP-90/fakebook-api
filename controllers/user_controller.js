@@ -3,6 +3,7 @@ const User = require('../models/User')
 const Post = require('../models/Post')
 const Comments = require('../models/Comments')
 const cors = require('cors')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const async = require('async')
 
@@ -76,29 +77,40 @@ exports.create_user = [
         if (!errors.isEmpty()) {
             return res.json({ errors: errors.array() });
         }
-        let newUser = new User({
-            first: req.body.first,
-            last: req.body.last,
-            username: req.body.username,
-            password: req.body.password
-        }).save(err => {
-            if(err) {return res.json({errors: err, msg:"Error saving user"})}
-            res.json({ok:true})
+        bcrypt.hash(req.body.password, 2, function(err, hash) {
+            let newUser = new User({
+                first: req.body.first,
+                last: req.body.last,
+                username: req.body.username,
+                password: hash
+            }).save(err => {
+                if(err) {return res.json({errors: err, msg:"Error saving user"})}
+                res.json({ok:true})
+            })
         })
+        
     }
 ]
 
 // Log in path, returns a token and the user
 exports.login = function(req, res) {
+    
     User.findOne({username: req.body.username}).exec((err, user) => {
-        if(user === null || user.password !== req.body.password) {
-            res.json({err: err, msg: "Username and password dont match"})
+        // If no user found, return error
+        if(user === null) {
+            res.json({errors: err, msg: "Username not found"})
         }
-        else {
-            jwt.sign({user}, 'secret', (err, token) => {
-                res.json({token})
-            })
-        }
+        // compare the password with thye hashed password
+        bcrypt.compare(req.body.password, user.password, function(err, result) {
+            if(result === true) {
+                // Create a token and send it to the client
+                jwt.sign({user}, 'secret', (err, token) => {
+                    res.json({token: token, msg: "Success"})
+                })
+            } else {
+                res.json("Incorrect username/password combination")
+            }
+        })
     })
 }
 
