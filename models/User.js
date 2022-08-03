@@ -22,5 +22,11 @@ user_schema
     return DateTime.fromJSDate(this.date_created).toLocaleString(DateTime.DATETIME_FULL);
 })
 
+user_schema
+.virtual('display_name')
+.get(function() {
+    return this.username.charAt(0).toUpperCase() + this.username.slice(1)
+})
+
 
 module.exports = mongoose.model('User', user_schema)

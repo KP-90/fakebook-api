@@ -66,7 +66,7 @@ exports.create_user = [
             return true
         })
     }),
-    body("confirm_pass").custom((value, {req}) => {
+    body("confirm_pass").isLength({min: 5}).withMessage("Password not long enough").custom((value, {req}) => {
         if(value !== req.body.password) {
             throw new Error('Password confirmation does not match password');
         }
@@ -97,7 +97,6 @@ exports.login = function(req, res) {
     
     User.findOne({username: req.body.username}).exec((err, user) => {
         // If no user found, return error
-        console.log(user)
         if(user === null) {
             res.json({errors: err, msg: "Username not found"})
             return
@@ -110,7 +109,7 @@ exports.login = function(req, res) {
                     res.json({token: token, msg: "Success"})
                 })
             } else {
-                res.json("Incorrect username/password combination")
+                res.json({errors: err, msg: "Incorrect username/password combination"})
             }
         })
     })
