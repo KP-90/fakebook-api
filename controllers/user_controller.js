@@ -98,7 +98,7 @@ exports.login = function(req, res) {
     User.findOne({username: req.body.username}).exec((err, user) => {
         // If no user found, return error
         if(user === null) {
-            res.json({errors: err, msg: "Username not found"})
+            res.json({errors: true, msg: "Incorrect username/password combination"})
             return
         }
         // compare the password with thye hashed password

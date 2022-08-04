@@ -5,12 +5,13 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose')
 const cors = require("cors")
+require('dotenv').config()
 
 const indexRouter = require('./routes/index');
 
 var app = express();
 
-const mongodb_url = "mongodb+srv://m001-student:bailey36@cluster0.f91ek.mongodb.net/fakebook?retryWrites=true&w=majority" || process.env.MONGODB_URI;
+const mongodb_url = process.env.REACT_DB_URL;
 
 mongoose.connect(mongodb_url, { useUnifiedTopology: true, useNewUrlParser: true });
 const db = mongoose.connection;
@@ -27,7 +28,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:3000'
+}))
 
 
 app.use('/', indexRouter);
