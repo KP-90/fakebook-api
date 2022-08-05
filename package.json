@@ -19,11 +19,12 @@
     "express-validator": "^6.14.2",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "jsonwebtoken": "^8.5.1",
     "luxon": "^2.5.0",
     "mongoose": "^6.4.3",
     "morgan": "~1.9.1"
   },
   "devDependencies": {
-    "jsonwebtoken": "^8.5.1"
+    
   }
 }
