@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
-  origin: 'https://mighty-cliffs-46847.herokuapp.com'
+  origin: ['https://mighty-cliffs-46847.herokuapp.com', 'http://localhost:3000']
 }))
 
 app.use('/', indexRouter);
