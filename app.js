@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 let corsOptions = {
-  origin: 'http://localhost:3000'
+  origin: '*'
 }
 app.use(cors(corsOptions))
 
