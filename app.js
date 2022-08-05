@@ -9,15 +9,13 @@ require('dotenv').config()
 
 const indexRouter = require('./routes/index');
 
-var app = express();
+let app = express();
 
 const mongodb_url = process.env.REACT_DB_URL;
 
 mongoose.connect(mongodb_url, { useUnifiedTopology: true, useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
-
-const Schema = mongoose.Schema;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,10 +26,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-let corsOptions = {
-  origin: '*'
-}
-app.use(cors(corsOptions))
+
+app.use(cors())
 
 
 app.use('/', indexRouter);

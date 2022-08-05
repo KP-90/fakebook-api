@@ -17,7 +17,7 @@ router.post('/edit/:id', post_controller.edit_post)
 
 // Get and Post routes for USERS
 router.get('/all_users', user_controller.get_all_users)
-router.get('/me', cors(), user_controller.get_self_user)
+router.get('/me', user_controller.get_self_user)
 router.get('/user/:id', user_controller.get_single_user)
 
 router.post('/user/update/:id', user_controller.update_user)
