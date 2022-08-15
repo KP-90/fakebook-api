@@ -2,7 +2,7 @@ const { body, validationResult } = require('express-validator');
 const Post = require('../models/Post')
 
 exports.get_all_posts = function(req, res) {
-    Post.find({}).sort({date_created: -1}).populate('author').exec(function(err, results) {
+    Post.find({}).sort({createdAt: -1}).populate('author').exec(function(err, results) {
         res.json({results})
     })
 }

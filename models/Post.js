@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { DateTime } = require("luxon");
 
 let Schema = mongoose.Schema
-const opts = { toJSON: { virtuals: true } };
+const opts = { toJSON: { virtuals: true }, timestamps: true };
 let post_schema = new Schema({
     author: {type: Schema.Types.ObjectId, ref: "User"},
     post_contents: {type: String},
