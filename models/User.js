@@ -19,7 +19,7 @@ let user_schema = new Schema({
 user_schema
 .virtual('date_readable')
 .get(function(){
-    return DateTime.fromJSDate(this.date_created).toLocaleString(DateTime.DATETIME_FULL);
+    return DateTime.fromJSDate(this.date_created).toLocaleString(DateTime.DATE_MED);
 })
 
 user_schema
