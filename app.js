@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
-  origin: ['https://fakebook-front.onrender.com/']
+  origin: [process.env.REACT_APP_ORIGINS]
 }))
 
 app.use('/', indexRouter);
