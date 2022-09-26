@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 const cors = require("cors")
 require('dotenv').config()
 
+
 const indexRouter = require('./routes/index');
 
 let app = express();
@@ -20,16 +21,27 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+console.log("allowed origins", process.env.REACT_APP_ORIGINS)
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+/*
 app.use(cors({
   origin: [process.env.REACT_APP_ORIGINS]
 }))
+*/
+app.use((req, res, next) => {
+  const allowedOrigins = [process.env.REACT_APP_ORIGINS];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', true);
+  return next();
+});
 
 app.use('/', indexRouter);
 
