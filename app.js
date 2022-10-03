@@ -21,7 +21,6 @@ db.on("error", console.error.bind(console, "mongo connection error"));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-console.log("allowed origins", process.env.REACT_APP_ORIGINS)
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -29,7 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
-
+  origin: '*',
 }))
 
 app.use('/', indexRouter);
