@@ -6,6 +6,10 @@ const user_controller = require('../controllers/user_controller')
 const post_controller = require('../controllers/post_controller')
 const comment_controller = require('../controllers/comment_controller')
 
+router.get('/ping', (req, res) => {
+    res.json({'ok': true, 'msg': "Connection confirmed"})
+})
+
 // Routes for POSTS
 router.get('/', post_controller.get_all_posts)
 router.get('/liked/:id', post_controller.get_liked_posts)
